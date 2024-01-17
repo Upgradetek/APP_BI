@@ -1,0 +1,165 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Code Execution Platform</title>
+        <style>
+            body {
+                font-family: 'Courier New', monospace;
+                margin: 0;
+                padding: 0;
+                background-color: #1e1e1e;
+                color: #d4d4d4;
+            }
+
+            h1,
+            h2 {
+                color: #61dafb;
+            }
+
+            form {
+                margin-top: 20px;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            #code-container {
+                position: relative;
+                display: flex;
+            }
+
+            #line-numbers {
+                height: 200px;
+                /* Set the height to match the textarea */
+                padding: 10px;
+                background-color: #2e2e2e;
+                color: #d4d4d4;
+                border-right: 1px solid #555;
+                text-align: right;
+                user-select: none;
+            }
+
+            #code {
+                flex: 1;
+                height: 200px;
+                padding: 10px;
+                font-size: 14px;
+                background-color: #2e2e2e;
+                color: #d4d4d4;
+                border: 0px;
+                /* border-radius: 5px; */
+                resize: none;
+            }
+
+            input[type="submit"] {
+                background-color: #61dafb;
+                color: #1e1e1e;
+                padding: 10px 15px;
+                font-size: 16px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            input[type="submit"]:hover {
+                background-color: #4fa3d1;
+            }
+
+            #result-container {
+                padding: 5px;
+                background-color: #2e2e2e;
+                margin-top: 20px;
+                margin-left: 5px;
+                border: 1px solid black;
+                border-radius: 5px;
+            }
+
+            #result-container p {
+                margin: 2px;
+            }
+
+            a {
+                color: #61dafb;
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+            #line-numbers {
+    height: 200px; /* Set the height to match the textarea */
+    overflow: auto;
+    padding: 10px;
+    background-color: #2e2e2e;
+    color: #d4d4d4;
+    border-right: 1px solid #555;
+    text-align: right;
+    user-select: none;
+    line-height: 20px; /* Adjust this value based on your font size and line height */
+}
+
+        </style>
+    </head>
+
+    <body>
+        
+        <h1>Code Execution Platform</h1>
+        <form action="/" method="post">
+            <label for="code">Enter your code:</label>
+            <div id="code-container">
+                <div id="line-numbers"></div>
+<textarea id="code" name="code" placeholder="Type your code here..." spellcheck="false">{{ user_code or '' }}</textarea>
+            </div>
+            <br>
+            <input type="submit" value="Execute Code">
+        </form>
+<div id="result-container">
+    {% if result is defined or error is defined %}
+    <h2>Code Execution Result</h2>
+    {% if result is defined %}
+    <p> Result: {{ result }}</p>
+    {% endif %}
+    {% if error is defined %}
+    <p > Error: <span style="color:red ;">{{ error }}</span></p>
+    {% endif %}
+    <p><a href="/">Try Again</a></p>
+    {% endif %}
+</div>
+      
+<script>
+    // Add line numbers to the line-numbers div
+    function updateLineNumbers() {
+        var codeTextarea = document.getElementById('code');
+        var lineNumbersDiv = document.getElementById('line-numbers');
+        var codeLines = codeTextarea.value.split('\n');
+        lineNumbersDiv.innerHTML = '';
+        for (var i = 1; i <= codeLines.length; i++) {
+            lineNumbersDiv.innerHTML += i + '<br>';
+        }
+    }
+
+    // Update line numbers on textarea input
+    document.getElementById('code').addEventListener('input', updateLineNumbers);
+        document.getElementById('code').addEventListener('input', updateLineNumbers);
+
+
+    // Reset the textarea value on form submit
+    // document.getElementById('code-form').addEventListener('submit', function () {
+    //     document.getElementById('code').value = ''; // Clear the textarea
+    //     updateLineNumbers(); // Update line numbers after clearing
+    // });
+    
+
+    // Initial update
+    updateLineNumbers();
+</script>
+    </body>
+
+</html>
